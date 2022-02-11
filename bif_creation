@@ -1,0 +1,14 @@
+**BEST SOLUTION**
+
+It works!
+
+Here's the recipe:
+
+    Starting with a working PL design in Vivado...
+    Added a block design IP with just a Zynq. The Zynq had its Quad SPI Flash enabled and most everything else disabled. 
+    Instantiated the Block Design IP with nothing connected.
+    After Synth & Imp, exported the Hardware (and .bit file) to SDK and then opened the SDK.
+    Inside the SDK, added new app project using fsbl template. Made sure the fsbl project would run in the debugger then stopped the debugger before the next steps.
+    In the SDK, used menu Xilinx Tools / Create Boot Image and created a .bif file. This .bif file had just two entries: [1] a (bootloader) entry that referenced the newly created fsbl .elf file built by the SDK and [2] the .bit file for the PL design built by Vivado. The output for this step is a .bin file that is downloaded to SPI flash.
+    In the SDK, used menu Xilinx Tools / Program Flash, referencing the newly created .bin file, selecting a flash type of qspi_single. Offset was left blank. During programming, the PL stopped running on the board (as expected) and did not start running until the board was reset with a power cycle.
+    Boot time was very fast - maybe less than 1 second.
